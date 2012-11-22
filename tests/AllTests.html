@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SignalsLite Tests</title>
+<script src="http://code.jquery.com/qunit/qunit-1.10.0.js"></script>
+<script src="../lib/SignalsLite.js/src/SignalLite.js"></script>
+<script src="../lib/SignalsLite.js/src/Signal.js"></script>
+<script src="../lib/SignalsLite.js/src/SignalDispatcher.js"></script>
+<script src="../cruddy/Cruddy.js"></script>
+<link href="http://code.jquery.com/qunit/qunit-1.10.0.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1 id="qunit-header">Cruddy Tests</h1>
+<h2 id="qunit-banner"></h2>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<script>
+
+module("Cruddy.Property");
+
+
+test( "Property get value", function() {
+	
+	var value = 'test';
+	var prop = new Cruddy.Property( value );
+	
+	equal( value, prop.get(), "Property value should be 'test'" );
+});
+
+test( "Property set value", 1, function() {
+	
+	var prop = new Cruddy.Property( 'test' );
+	
+	prop.set( 'update' );
+	
+	equal( 'update', prop.get(), 'function argument should be "update"' );
+} );
+
+test( "Property changed signal", 2, function() {
+	
+	var prop = new Cruddy.Property( 'test' );
+	
+	prop.changed.add( function( value ) {
+		
+		equal( 'update', value, 'function argument should be "update"' );
+		equal( 'update', prop.get(), 'function argument should be "update"' );
+		
+	} );
+	
+	prop.set( 'update' );
+	prop.set( 'update' );
+} );
+
+test( "Property change signal context", function() {
+	
+	var prop = new Cruddy.Property( 'test', this );
+	var that = this;
+	
+	prop.changed.add( function( value ) {
+		
+		equal( that, this, "this should be reference to value sent in to constructor" );
+		
+	} );
+	
+	prop.set( 'foo' );
+} );
+
+test( "Property used as descriptor", function() {
+	
+	var obj = Object.create( Object.prototype, {
+		prop: new Cruddy.Property( 'test' )
+	} );
+	
+	obj.prop.changed.add( function( value ) {
+		equal( 'update', value, "Value should have changed" );
+	} );
+	
+	obj.prop = 'update2';
+	console.log( obj.prop );
+	obj.prop.set('update');
+	
+} );
+
+/*
+test( "Use a Model", function() {
+	
+	var model = new Cruddy.Model();
+	
+	ok( model, "There is a model" );
+	
+});
+*/
+
+</script>
+</body>
+</html>

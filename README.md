@@ -1,4 +1,4 @@
 CruddyMVC
 =========
 
-A Backbone.js like MVC micro framework in TypeScript
+An experimental Backbone.js like MVC micro framework in TypeScript.
