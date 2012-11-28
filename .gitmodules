@@ -1,0 +1,3 @@
+[submodule "lib/SignalsLite.js"]
+	path = lib/SignalsLite.js
+	url = https://github.com/CaptainN/SignalsLite.js.git
