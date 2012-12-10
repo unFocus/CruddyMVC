@@ -1,13 +1,13 @@
 # Building CruddyMVC requires typescript and uglify-js. For
 # help installing, try:
 #
-# `npm -g install typescript uglify-js`
+# `npm install typescript uglify-js`
 #
 fs               = require 'fs'
 path             = require 'path'
-{spawn, exec}    = require 'child_process'
-TypeScript       = require 'typescript'
-{parser, uglify} = require 'uglify-js'
+{print}          = require 'sys'
+{exec}           = require 'child_process'
+#{parser, uglify} = require 'uglify-js'
 
 javascripts = {
   'CruddyMVC/CruddyMVC.js': [
@@ -16,3 +16,17 @@ javascripts = {
     'src/Cruddy.ts'
   ]
 }
+
+task 'build', 'build CruddyMVC', (options) ->
+  code = exec 'tsc @build'
+  code.stderr.on 'data', (data) ->
+    process.stderr.write data.toString()
+  code.stdout.on 'data', (data) ->
+    print data.toString()
+
+task 'watch', 'watch for changes to CruddyMVC', (options) ->
+  code = exec 'tsc @watch'
+  code.stderr.on 'data', (data) ->
+    process.stderr.write data.toString()
+  code.stdout.on 'data', (data) ->
+    print data.toString()

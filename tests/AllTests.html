@@ -7,7 +7,7 @@
 <script src="../lib/SignalsLite.js/src/SignalLite.js"></script>
 <script src="../lib/SignalsLite.js/src/Signal.js"></script>
 <script src="../lib/SignalsLite.js/src/SignalDispatcher.js"></script>
-<script src="../cruddy/Cruddy.js"></script>
+<script src="../cruddy/CruddyMVC.js"></script>
 <link href="http://code.jquery.com/qunit/qunit-1.10.0.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -20,7 +20,6 @@
 
 module("Cruddy.Property");
 
-
 test( "Property get value", function() {
 	
 	var value = 'test';
@@ -32,7 +31,6 @@ test( "Property get value", function() {
 test( "Property set value", 1, function() {
 	
 	var prop = new Cruddy.Property( 'test' );
-	
 	prop.set( 'update' );
 	
 	equal( 'update', prop.get(), 'function argument should be "update"' );
@@ -43,14 +41,12 @@ test( "Property changed signal", 2, function() {
 	var prop = new Cruddy.Property( 'test' );
 	
 	prop.changed.add( function( value ) {
-		
 		equal( 'update', value, 'function argument should be "update"' );
 		equal( 'update', prop.get(), 'function argument should be "update"' );
-		
 	} );
 	
-	prop.set( 'update' );
-	prop.set( 'update' );
+	prop.set( 'update' ); // should fire
+	prop.set( 'update' ); // shouldn't fire
 } );
 
 test( "Property change signal context", function() {
@@ -59,39 +55,20 @@ test( "Property change signal context", function() {
 	var that = this;
 	
 	prop.changed.add( function( value ) {
-		
 		equal( that, this, "this should be reference to value sent in to constructor" );
-		
 	} );
 	
 	prop.set( 'foo' );
 } );
 
-test( "Property used as descriptor", function() {
-	
-	var obj = Object.create( Object.prototype, {
-		prop: new Cruddy.Property( 'test' )
-	} );
-	
-	obj.prop.changed.add( function( value ) {
-		equal( 'update', value, "Value should have changed" );
-	} );
-	
-	obj.prop = 'update2';
-	console.log( obj.prop );
-	obj.prop.set('update');
-	
-} );
 
-/*
 test( "Use a Model", function() {
 	
 	var model = new Cruddy.Model();
-	
 	ok( model, "There is a model" );
 	
 });
-*/
+
 
 </script>
 </body>

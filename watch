@@ -1,0 +1,5 @@
+--watch
+--sourcemap
+--out cruddy/CruddyMVC.js
+typescript/Cruddy.ts
+lib/SignalsLite.js/src/SignalsLite.d.ts

@@ -1,0 +1,18 @@
+{
+  "author": "Kevin Newman",
+  "name": "CruddyMVC",
+  "version": "0.1",
+  "description": "A Backbone.js inspired MVC framework in TypeScript.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unFocus/CruddyMVC"
+  },
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": ">= 0.8",
+    "uglify-js": ">= 1.2.5 <2.0"
+  }
+}

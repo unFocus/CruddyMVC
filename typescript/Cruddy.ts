@@ -2,7 +2,6 @@
 
 module Cruddy
 {
-	"use strict";
 	export function sync( method, model, options )
 	{
 		switch( method )
@@ -33,14 +32,19 @@ module Cruddy
 
 		context: Object;
 
-		constructor( public value, context?: Object )
+		value: any;
+
+		constructor( value, context?: Object )
 		{
+			this.value = value;
 			this.context = context || this;
 			this.changed = new Signal( this.context );
 		}
 
 		set( value ) {
+			if ( this.value === value ) return;
 			this.value = value;
+			this.changed.trigger( this.value );
 		}
 
 		get() {
@@ -63,20 +67,27 @@ module Cruddy
 		id: Property;
 		validate: Function;
 
-		constructor( public properties?, options? )
+		properties: Object;
+
+		constructor( properties?, options? )
 		{
+			this.properties = properties;
+			
 			this.errored = new Signal( this );
 			this.changed = new Signal( this );
 
 			this.id = new Property( this );
 
-			if ( options.validate )
-				this.validate = options.validate;
+			if ( options )
+			{
+				if ( options.validate )
+					this.validate = options.validate;
 
-			if ( options.sync )
-				this.sync = options.sync;
-			else
-				this.sync = sync;
+				if ( options.sync )
+					this.sync = options.sync;
+				else
+					this.sync = sync;
+			}
 
 			if ( properties )
 				this.set( properties );
